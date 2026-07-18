@@ -1,0 +1,13 @@
+# Netlify, Next.js 16 App Router'ı bazı kurulumlarda otomatik
+# algılayamıyor (sonuç: boş yayın + her sayfada 404). Bu dosya Next.js
+# runtime'ını açıkça devreye alır — UI'daki yanlış ayarları da ezer.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
