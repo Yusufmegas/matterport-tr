@@ -21,7 +21,7 @@ function allowedOrigins(): string[] {
     /* Production origin'leri env eksik olsa bile kabul edilir —
        aksi hâlde canlıda form istekleri reddedilirdi. */
     siteConfig.url,
-    `https://www.${siteConfig.domain}`,
+    `https://${siteConfig.domain}`,
   ]);
   const configured = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (configured) {

@@ -69,7 +69,7 @@ export function buildQuoteEmail(data: QuoteRequestData): QuoteEmailContent {
     `</div>` +
     `<table style="width:100%;border-collapse:collapse;">${htmlRows}</table>` +
     `<div style="padding:14px 20px;font-size:11px;color:#9ca3af;">` +
-    `Bu talep matterporttr.com teklif formu üzerinden gönderilmiştir.` +
+    `Bu talep https://www.matterporttr.com teklif formu üzerinden gönderilmiştir.` +
     `</div>` +
     `</div>` +
     `</div>`;
@@ -80,7 +80,7 @@ export function buildQuoteEmail(data: QuoteRequestData): QuoteEmailContent {
     rows
       .map(([label, value]) => `${label}: ${value.replace(/\n/g, "\n  ")}`)
       .join("\n") +
-    `\n\n--\nBu talep matterporttr.com teklif formu üzerinden gönderilmiştir.\n`;
+    `\n\n--\nBu talep https://www.matterporttr.com teklif formu üzerinden gönderilmiştir.\n`;
 
   return { subject, html, text };
 }

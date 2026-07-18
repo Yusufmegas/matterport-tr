@@ -14,8 +14,8 @@ export interface SocialLink {
 export const siteConfig = {
   siteName: "Matterport TR",
   domain: "matterporttr.com",
-  url: "https://matterporttr.com",
-  baseUrl: "https://matterporttr.com",
+  url: "https://www.matterporttr.com",
+  baseUrl: "https://www.matterporttr.com",
   serviceArea: "Türkiye Geneli",
   /** Legal pages show a review notice while true */
   legalReviewRequired: true,

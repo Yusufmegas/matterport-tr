@@ -113,7 +113,7 @@ export const privacyPage: LegalPageData = {
     {
       title: "Politikanın Kapsamı",
       paragraphs: [
-        "Bu politika, matterporttr.com alan adı altında yayınlanan web sitesinin kullanımını kapsar. Site üzerinden bağlantı verilen üçüncü taraf web siteleri ve platformlar kendi gizlilik politikalarına tabidir.",
+        "Bu politika, www.matterporttr.com alan adı altında yayınlanan web sitesinin kullanımını kapsar. Site üzerinden bağlantı verilen üçüncü taraf web siteleri ve platformlar kendi gizlilik politikalarına tabidir.",
       ],
     },
     {
