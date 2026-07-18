@@ -1,0 +1,770 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------- */
+/* Design tokens — light (day) theme  */
+/* ---------------------------------- */
+:root {
+  --background: #f7f8fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f5;
+  --foreground: #0b1220;
+  /* Metin hiyerarşisi: foreground (primary) → secondary → muted */
+  --secondary: #4b5565;
+  --muted: #566172;
+  --border: #e2e6ec;
+  --border-strong: #ccd3dd;
+
+  --accent: #d81a3c;
+  --accent-strong: #b01230;
+  --accent-foreground: #ffffff;
+
+  --ring: rgba(216, 26, 60, 0.4);
+
+  /* Hero placeholder (day): soft architectural daylight */
+  --hero-base-a: #dfe6ef;
+  --hero-base-b: #f2f5f9;
+  --hero-base-c: #c8d3e0;
+  --hero-grid-line: rgba(11, 18, 32, 0.07);
+  --hero-glow: rgba(216, 26, 60, 0.1);
+  --hero-veil: rgba(247, 248, 250, 0.72);
+
+  /* Solution card placeholders (day) */
+  --ph-warm-a: #f2e6da;
+  --ph-warm-b: #e0cab4;
+  --ph-warm-c: #c9a184;
+  --ph-warm-glow: rgba(255, 214, 168, 0.75);
+  --ph-warm-line: rgba(94, 62, 38, 0.22);
+  --ph-tech-bg: #eceff3;
+  --ph-tech-line: rgba(24, 34, 52, 0.45);
+
+  /* Needs section spotlight (day): very low opacity red */
+  --needs-spotlight-color: rgba(216, 26, 60, 0.06);
+
+  /* Project placeholders (day) */
+  --ph-marine-a: #d8e3f0;
+  --ph-marine-b: #b7c8dd;
+  --ph-marine-line: rgba(28, 56, 94, 0.22);
+  --ph-ind-bg: #e9ecf0;
+  --ph-ind-line: rgba(40, 52, 68, 0.16);
+  --ph-avia-bg: #e5e9ee;
+  --ph-avia-line: rgba(40, 52, 68, 0.2);
+}
+
+/* ---------------------------------- */
+/* Design tokens — dark (night) theme */
+/* ---------------------------------- */
+.dark {
+  --background: #090d13;
+  --surface: #0f151e;
+  --surface-2: #121a25;
+  --foreground: #f4f6f8;
+  /* Metin hiyerarşisi: foreground (primary) → secondary → muted.
+     Muted bile zeminde ≥4.5:1 kontrast verir — tam siyah zemin yok. */
+  --secondary: #c5cdd7;
+  --muted: #929dab;
+  --border: #27313f;
+  --border-strong: #364354;
+
+  --accent: #ff3355;
+  --accent-strong: #ff5674;
+  --accent-foreground: #ffffff;
+
+  --ring: rgba(255, 51, 85, 0.45);
+
+  /* Hero placeholder (night): deep architectural dusk */
+  --hero-base-a: #0a1120;
+  --hero-base-b: #060910;
+  --hero-base-c: #101b30;
+  --hero-grid-line: rgba(147, 170, 205, 0.08);
+  --hero-glow: rgba(255, 51, 85, 0.14);
+  --hero-veil: rgba(6, 9, 15, 0.55);
+
+  /* Solution card placeholders (night) */
+  --ph-warm-a: #2b1a11;
+  --ph-warm-b: #140d09;
+  --ph-warm-c: #7a4a2b;
+  --ph-warm-glow: rgba(255, 170, 96, 0.32);
+  --ph-warm-line: rgba(255, 205, 160, 0.16);
+  --ph-tech-bg: #0a0f18;
+  --ph-tech-line: rgba(222, 230, 240, 0.4);
+
+  /* Needs section spotlight (night): slightly warmer red glow */
+  --needs-spotlight-color: rgba(255, 51, 85, 0.09);
+
+  /* Project placeholders (night) */
+  --ph-marine-a: #0c1728;
+  --ph-marine-b: #060b15;
+  --ph-marine-line: rgba(140, 180, 230, 0.16);
+  --ph-ind-bg: #0d1118;
+  --ph-ind-line: rgba(200, 214, 232, 0.1);
+  --ph-avia-bg: #0b101a;
+  --ph-avia-line: rgba(200, 214, 232, 0.13);
+}
+
+@theme inline {
+  /* Desktop layout starts at 1000px: common scaled Windows laptops
+     (1536×864 @ 150% → 1022px CSS) must get the desktop experience. */
+  --breakpoint-lg: 62.5rem;
+
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-border-subtle: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+/* ---------------------------------- */
+/* Base                               */
+/* ---------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* ---------------------------------- */
+/* Dekoratif katmanlar hiçbir zaman   */
+/* dokunma/tıklama almaz — linklerin  */
+/* ve butonların üzerini örtemezler.  */
+/* ---------------------------------- */
+.tech-grid,
+.hero-grid,
+.hero-scanline,
+.hero-veil,
+.hero-placeholder {
+  pointer-events: none;
+}
+
+/* ---------------------------------- */
+/* Hero placeholder backdrop          */
+/* Removed automatically once real    */
+/* hero images are added to           */
+/* public/images/hero/                */
+/* ---------------------------------- */
+.hero-placeholder {
+  background:
+    radial-gradient(120% 90% at 80% 0%, var(--hero-base-c) 0%, transparent 55%),
+    radial-gradient(90% 70% at 10% 100%, var(--hero-glow) 0%, transparent 60%),
+    linear-gradient(160deg, var(--hero-base-a) 0%, var(--hero-base-b) 100%);
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(var(--hero-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hero-grid-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(85% 80% at 50% 45%, black 30%, transparent 100%);
+}
+
+.hero-scanline {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--hero-glow) 45%,
+    var(--accent) 50%,
+    var(--hero-glow) 55%,
+    transparent 100%
+  );
+  opacity: 0.35;
+  animation: hero-scan 9s linear infinite;
+}
+
+.hero-veil {
+  /* Controlled left scrim keeps hero copy readable without darkening
+     the right side of the photograph; thin bottom fade anchors the
+     hero into the trust band below. */
+  background:
+    linear-gradient(90deg, var(--hero-veil) 0%, transparent 52%),
+    linear-gradient(180deg, transparent 0%, transparent 72%, var(--hero-veil) 100%);
+}
+
+@keyframes hero-scan {
+  0% {
+    transform: translateY(-120%);
+  }
+  100% {
+    transform: translateY(1400%);
+  }
+}
+
+/* ---------------------------------- */
+/* Section background details         */
+/* ---------------------------------- */
+.tech-grid {
+  background-image:
+    linear-gradient(var(--hero-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hero-grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(75% 70% at 70% 45%, black 20%, transparent 95%);
+}
+
+/* ---------------------------------- */
+/* Solutions section (scroll stack)   */
+/* ---------------------------------- */
+
+/* Panel yüzeyi: çok hafif üstten alta gradient + kontrollü kırmızı
+   ışık — zeminden ayrılır, glow'a dönüşmez. */
+.solution-panel-surface {
+  background-image:
+    radial-gradient(
+      50% 34% at 84% 0%,
+      var(--needs-spotlight-color) 0%,
+      transparent 70%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 55%, var(--surface)) 0%,
+      var(--surface) 62%
+    );
+}
+
+/* Aktif grup numarası girişi (kısa fade + slide) */
+.sol-count-in {
+  animation: needs-preview-in 0.22s ease-out both;
+}
+
+/* Kırmızı seçili kenarlarda yavaş parlama */
+@keyframes sol-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.sol-glow {
+  animation: sol-glow 8s ease-in-out infinite;
+}
+
+/* Dollhouse aktif katmanında hafif opacity geçişi */
+@keyframes sol-layer {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.sol-layer {
+  animation: sol-layer 9s ease-in-out infinite;
+}
+
+/* Nokta bulutunda çok küçük drift (needs-drift keyframe'ini paylaşır) */
+.sol-drift {
+  animation: needs-drift 10s ease-in-out infinite alternate;
+}
+
+/* Görsel alanında yavaş scan line */
+.sol-scan-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--needs-spotlight-color) 20%,
+    var(--accent) 50%,
+    var(--needs-spotlight-color) 80%,
+    transparent 100%
+  );
+  opacity: 0.2;
+  animation: sol-scan 11s linear infinite;
+}
+
+@keyframes sol-scan {
+  0% {
+    top: 4%;
+  }
+  100% {
+    top: 96%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sol-count-in,
+  .sol-glow,
+  .sol-layer,
+  .sol-drift {
+    animation: none;
+  }
+
+  .sol-scan-line {
+    animation: none;
+    opacity: 0.1;
+  }
+}
+
+/* ---------------------------------- */
+/* Sectors section (sektör dizini)    */
+/* ---------------------------------- */
+
+/* Teknik görsel girişi: küçük scale + blur çözülmesi */
+@keyframes sector-visual-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.sector-visual-in {
+  animation: sector-visual-in 0.26s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sector-visual-in {
+    animation: none;
+  }
+}
+
+/* ---------------------------------- */
+/* Project card placeholders          */
+/* Quiet, premium surfaces — layout   */
+/* fillers, not fake photography.     */
+/* ---------------------------------- */
+
+/* Marine: deep navy with horizontal water lines */
+.ph-project-marine {
+  background:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0 26px,
+      var(--ph-marine-line) 26px 27px
+    ),
+    radial-gradient(90% 70% at 70% 15%, var(--ph-marine-a) 0%, transparent 60%),
+    linear-gradient(170deg, var(--ph-marine-a) 0%, var(--ph-marine-b) 100%);
+}
+
+/* Industrial: neutral surface with structural grid */
+.ph-project-industrial {
+  background:
+    linear-gradient(var(--ph-ind-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ph-ind-line) 1px, transparent 1px),
+    linear-gradient(160deg, var(--ph-ind-bg) 0%, var(--ph-ind-bg) 100%);
+  background-size: 34px 34px, 34px 34px, auto;
+}
+
+/* Aviation: hangar feel — wide roof arc + vertical structure lines */
+.ph-project-aviation {
+  background:
+    radial-gradient(
+      120% 95% at 50% -30%,
+      transparent 62%,
+      var(--ph-avia-line) 62.5%,
+      transparent 64%
+    ),
+    radial-gradient(
+      120% 115% at 50% -30%,
+      transparent 74%,
+      var(--ph-avia-line) 74.5%,
+      transparent 76%
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 46px,
+      var(--ph-avia-line) 46px 47px
+    ),
+    var(--ph-avia-bg);
+}
+
+/* Retail: warm neutral display wall — vertical shelf rhythm */
+.ph-project-retail {
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 64px,
+      var(--ph-warm-line) 64px 66px
+    ),
+    linear-gradient(180deg, transparent 55%, var(--ph-warm-b) 100%),
+    radial-gradient(70% 55% at 30% 20%, var(--ph-warm-glow) 0%, transparent 60%),
+    linear-gradient(160deg, var(--ph-warm-a) 0%, var(--ph-warm-b) 100%);
+}
+
+/* Construction: structural grid + diagonal site lines */
+.ph-project-construction {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 34px,
+      var(--ph-ind-line) 34px 35px
+    ),
+    linear-gradient(var(--ph-ind-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ph-ind-line) 1px, transparent 1px),
+    var(--ph-ind-bg);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+/* Hospitality: warm architectural surface (shares warm tokens) */
+.ph-project-hospitality {
+  background:
+    radial-gradient(80% 65% at 72% 22%, var(--ph-warm-glow) 0%, transparent 60%),
+    linear-gradient(90deg, var(--ph-warm-line) 2px, transparent 2px),
+    linear-gradient(165deg, var(--ph-warm-a) 0%, var(--ph-warm-b) 100%);
+  background-size: auto, 52px 100%, auto;
+}
+
+/* ---------------------------------- */
+/* Project loop (marquee)             */
+/* ---------------------------------- */
+/* Hareket JavaScript rAF döngüsüyle yönetilir (drag + otomatik kayma
+   tek kaynak) — transform, ProjectLoop tarafından inline yazılır. */
+
+/* Kenar fade: kartların giriş/çıkışını yumuşatır, section
+   arka planına (gündüz/gece) otomatik karışır */
+.project-loop-mask {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 56px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 56px,
+    #000 calc(100% - 56px),
+    transparent 100%
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* Manuel, scroll-snap'li yatay şerit (JS hareketi ve drag de
+     ProjectLoop içinde devre dışı bırakılır) */
+  .project-loop {
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    cursor: auto;
+  }
+
+  .project-loop-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  /* Görsel döngü kopyası reduced-motion'da gereksizdir */
+  .project-loop-group[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+/* ---------------------------------- */
+/* Trusted brands loop (logo marquee) */
+/* Salt otomatik hareket — drag yok.  */
+/* ---------------------------------- */
+.brand-loop {
+  /* Fallback — JS, grup genişliğini ölçüp px/s hızına göre gerçek
+     değeri inline yazar */
+  --brand-loop-duration: 90s;
+}
+
+.brand-loop-track {
+  animation: brand-loop-scroll var(--brand-loop-duration) linear infinite;
+}
+
+@keyframes brand-loop-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    /* İki eş grup; yarısı kadar kayınca döngü kusursuz başa sarar */
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Herhangi bir logoya hover → tüm track mevcut konumunda duraklar */
+.brand-loop:hover .brand-loop-track {
+  animation-play-state: paused;
+}
+
+.brand-loop-mask {
+  /* Koyu Spline zeminiyle uyumlu kenar fade'i: mobil dar, masaüstü geniş */
+  --brand-fade: 48px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 var(--brand-fade),
+    #000 calc(100% - var(--brand-fade)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 var(--brand-fade),
+    #000 calc(100% - var(--brand-fade)),
+    transparent 100%
+  );
+}
+
+@media (min-width: 62.5rem) {
+  .brand-loop-mask {
+    --brand-fade: 120px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-loop-track {
+    animation: none;
+    width: 100%;
+  }
+
+  /* Statik, sarmalanan marka şeridi — 12 markanın tamamı görünür */
+  .brand-loop-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .brand-loop-group[aria-hidden="true"] {
+    display: none;
+  }
+
+  .brand-loop-mask {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
+/* ---------------------------------- */
+/* Needs section (ihtiyaç seçici)     */
+/* ---------------------------------- */
+
+/* Önizleme yüzeyi: çok hafif teknik nokta dokusu + üstten alta
+   yumuşak yüzey gradient'i — panel, sayfa zemininden ayrılır. */
+.needs-preview-surface {
+  background-image:
+    radial-gradient(var(--hero-grid-line) 1px, transparent 1px),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 75%, var(--surface)) 0%,
+      var(--surface) 100%
+    );
+  background-size:
+    26px 26px,
+    auto;
+}
+
+/* Yeni önizleme içeriğinin girişi (fade + kısa dikey hareket) */
+@keyframes needs-preview-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.needs-preview-in {
+  animation: needs-preview-in 0.2s ease-out both;
+}
+
+/* Konum noktalarında yavaş pulse */
+@keyframes needs-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.needs-pulse {
+  animation: needs-pulse 3.2s ease-in-out infinite;
+}
+
+/* Nokta bulutunda 1–2px drift */
+@keyframes needs-drift {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(2px, -2px);
+  }
+}
+
+.needs-drift {
+  animation: needs-drift 7s ease-in-out infinite alternate;
+}
+
+/* Motif alanında çok hafif scan line */
+.needs-scan-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--needs-spotlight-color) 20%,
+    var(--accent) 50%,
+    var(--needs-spotlight-color) 80%,
+    transparent 100%
+  );
+  opacity: 0.25;
+  animation: needs-scan 9s linear infinite;
+}
+
+@keyframes needs-scan {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(220px);
+  }
+}
+
+/* Dosya format chip'lerinde küçük opacity değişimi */
+@keyframes needs-chip {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.needs-chip-fade {
+  animation: needs-chip 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .needs-preview-in,
+  .needs-pulse,
+  .needs-drift,
+  .needs-chip-fade {
+    animation: none;
+  }
+
+  .needs-scan-line {
+    animation: none;
+    opacity: 0.12;
+  }
+}
+
+/* ---------------------------------- */
+/* AnimatedHeading (başlık reveal)    */
+/* ---------------------------------- */
+
+.ah-word {
+  display: inline-block;
+}
+
+/* Hero: saf CSS keyframe — ilk boyada çalışır, JS beklemez */
+@keyframes ah-hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.ah-hero .ah-word {
+  animation: ah-hero-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--ah-d, 0ms);
+}
+
+/* Section: viewport'a girince transition ile açılır */
+.ah-section .ah-word {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+  transition-delay: var(--ah-d, 0ms);
+}
+
+.ah-section.ah-hidden .ah-word {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(4px);
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ah-hero .ah-word {
+    animation: none;
+  }
+
+  .ah-section .ah-word,
+  .ah-section.ah-hidden .ah-word {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+}
+
+/* ---------------------------------- */
+/* Entrance animation                 */
+/* ---------------------------------- */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scanline {
+    animation: none;
+    opacity: 0.15;
+  }
+
+  .animate-fade-up {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
