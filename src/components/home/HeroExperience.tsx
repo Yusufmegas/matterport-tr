@@ -180,6 +180,7 @@ export function HeroExperience({ dayImage, nightImage }: HeroExperienceProps) {
               alt=""
               fill
               priority
+              fetchPriority="high"
               sizes="100vw"
               className="object-cover transition-opacity duration-500 dark:opacity-0"
             />
@@ -187,7 +188,7 @@ export function HeroExperience({ dayImage, nightImage }: HeroExperienceProps) {
               src={nightImage as string}
               alt=""
               fill
-              priority
+              fetchPriority="low"
               sizes="100vw"
               className="object-cover opacity-0 transition-opacity duration-500 dark:opacity-100"
             />
