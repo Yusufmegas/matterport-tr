@@ -18,7 +18,7 @@ export const siteConfig = {
   baseUrl: "https://www.matterporttr.com.tr",
   serviceArea: "Türkiye Geneli",
   /** Legal pages show a review notice while true */
-  legalReviewRequired: true,
+  legalReviewRequired: false,
   phone: "0501 580 01 01",
   email: "info@matterporttr.com",
   website: "www.matterporttr.com.tr",
