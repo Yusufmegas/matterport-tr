@@ -172,15 +172,16 @@ export function HeroExperience({ dayImage, nightImage }: HeroExperienceProps) {
       >
         {hasImages ? (
           <>
-            {/* Tema seçimi display yerine opacity ile yapılır: iki görsel
-                de tam genişlikte ölçülür (Next'in sizes="100vw" dev
-                uyarısını önler) ve tema geçişi yumuşak olur. */}
+            {/* Gece görseli açık temada display:none + lazy olduğundan hiç
+                indirilmez (LCP görseliyle bant genişliği için yarışmaz);
+                gündüz görseli dark temada opacity ile gizlenir. */}
             <Image
               src={dayImage as string}
               alt=""
               fill
               priority
               fetchPriority="high"
+              quality={60}
               sizes="100vw"
               className="object-cover transition-opacity duration-500 dark:opacity-0"
             />
@@ -188,9 +189,9 @@ export function HeroExperience({ dayImage, nightImage }: HeroExperienceProps) {
               src={nightImage as string}
               alt=""
               fill
-              fetchPriority="low"
+              quality={60}
               sizes="100vw"
-              className="object-cover opacity-0 transition-opacity duration-500 dark:opacity-100"
+              className="hidden object-cover dark:block"
             />
           </>
         ) : (
