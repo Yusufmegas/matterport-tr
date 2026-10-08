@@ -1,6 +1,6 @@
 # MPskin Kontrol Köprüsü — postMessage Protokolü
 
-Bu doküman, matterporttr.com ana sayfa Hero'sundaki özel kontrol
+Bu doküman, matterporttr.com.tr ana sayfa Hero'sundaki özel kontrol
 çubuğu ile MPskin (my.mpskin.com) içinde çalışan Matterport turu
 arasındaki `window.postMessage` protokolünü tanımlar.
 
@@ -108,7 +108,7 @@ Web sitesi bilinmeyen mesajları sessizce yok sayar.
 | Measurement state    | `mpSdk.Measurements.mode.subscribe(...)`        |
 
 Karşılayıcı taraf, gelen mesajlarda `event.origin` değerini web
-sitesinin origin'iyle (`https://matterporttr.com` ve geliştirme için
+sitesinin origin'iyle (`https://www.matterporttr.com.tr` ve geliştirme için
 `http://localhost:3000`) doğrulamalı ve yanıtlarını yalnızca bu
 origin'lere göndermelidir.
 

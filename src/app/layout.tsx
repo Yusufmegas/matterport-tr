@@ -17,7 +17,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.matterporttr.com"),
+  metadataBase: new URL("https://www.matterporttr.com.tr"),
   title: {
     default: "Matterport 3D Sanal Tur ve Dijital İkiz | Matterport TR",
     template: "%s | Matterport TR",

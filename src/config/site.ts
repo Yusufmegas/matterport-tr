@@ -13,15 +13,15 @@ export interface SocialLink {
 
 export const siteConfig = {
   siteName: "Matterport TR",
-  domain: "matterporttr.com",
-  url: "https://www.matterporttr.com",
-  baseUrl: "https://www.matterporttr.com",
+  domain: "matterporttr.com.tr",
+  url: "https://www.matterporttr.com.tr",
+  baseUrl: "https://www.matterporttr.com.tr",
   serviceArea: "Türkiye Geneli",
   /** Legal pages show a review notice while true */
   legalReviewRequired: true,
   phone: "0501 580 01 01",
   email: "info@matterporttr.com",
-  website: "www.matterporttr.com",
+  website: "www.matterporttr.com.tr",
   address: "",
   /** Teknik Destek — yeni proje, çekim ve teknik talepler */
   technicalSupportPhone: "0501 580 01 01",

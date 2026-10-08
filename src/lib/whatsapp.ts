@@ -105,7 +105,7 @@ export function buildWhatsAppRequestMessage(data: QuoteRequestData): {
   lines.push(
     "",
     SEPARATOR,
-    "Bu talep https://www.matterporttr.com iletişim formu üzerinden oluşturuldu.",
+    "Bu talep https://www.matterporttr.com.tr iletişim formu üzerinden oluşturuldu.",
   );
 
   /* null alanlar düşer; ardışık boş satırlar teke iner */
