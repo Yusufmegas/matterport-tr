@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  expireTime: 120,
   images: {
     qualities: [60, 75],
   },

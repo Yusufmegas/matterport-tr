@@ -11,6 +11,9 @@ import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { QuoteSection } from "@/components/home/QuoteSection";
 import { TrustedBrands } from "@/components/home/TrustedBrands";
 
+// Cloudflare must not keep the homepage HTML from an old deployment for a year.
+export const revalidate = 60;
+
 export default function HomePage() {
   return (
     <>
