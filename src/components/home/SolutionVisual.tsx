@@ -1,3 +1,4 @@
+import { useId } from "react";
 import type { SolutionVisualType } from "@/types";
 
 /* ------------------------------------------------------------------ */
@@ -12,23 +13,18 @@ function jitter(i: number, seed: number, range: number) {
 }
 
 function DotGrid({ w, h, gap = 30 }: { w: number; h: number; gap?: number }) {
-  const cols = Math.floor(w / gap);
-  const rows = Math.floor(h / gap);
-  const dots = [];
-  for (let r = 0; r <= rows; r++) {
-    for (let c = 0; c <= cols; c++) {
-      dots.push(
-        <circle
-          key={`${r}-${c}`}
-          cx={c * gap + 12}
-          cy={r * gap + 12}
-          r="0.9"
-          className="fill-foreground/12"
-        />,
-      );
-    }
-  }
-  return <g>{dots}</g>;
+  const patternId = `solution-grid-${useId().replace(/:/g, "")}`;
+
+  return (
+    <g>
+      <defs>
+        <pattern id={patternId} width={gap} height={gap} patternUnits="userSpaceOnUse">
+          <circle cx="12" cy="12" r="0.9" className="fill-foreground/12" />
+        </pattern>
+      </defs>
+      <rect width={w} height={h} fill={`url(#${patternId})`} />
+    </g>
+  );
 }
 
 /** 01 — Perspektif ticari mekân wireframe'i, kırmızı seçili kenarlar. */

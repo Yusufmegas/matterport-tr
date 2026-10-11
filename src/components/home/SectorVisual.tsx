@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 /* ------------------------------------------------------------------ */
 /* Sektör önizleme motifleri — saf, optimize inline SVG.              */
 /* Ana çizgiler ~%70, ikincil %40, grid ~%10 görünürlük; kırmızı      */
@@ -7,21 +9,18 @@
 const VB = "0 0 480 360";
 
 function Grid() {
-  const dots = [];
-  for (let r = 0; r <= 11; r++) {
-    for (let c = 0; c <= 15; c++) {
-      dots.push(
-        <circle
-          key={`${r}-${c}`}
-          cx={c * 32 + 8}
-          cy={r * 32 + 8}
-          r="0.9"
-          className="fill-foreground/10"
-        />,
-      );
-    }
-  }
-  return <g>{dots}</g>;
+  const patternId = `sector-grid-${useId().replace(/:/g, "")}`;
+
+  return (
+    <g>
+      <defs>
+        <pattern id={patternId} width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="8" cy="8" r="0.9" className="fill-foreground/10" />
+        </pattern>
+      </defs>
+      <rect width="480" height="360" fill={`url(#${patternId})`} />
+    </g>
+  );
 }
 
 function Frame({ children }: { children: React.ReactNode }) {
