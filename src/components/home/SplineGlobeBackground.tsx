@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 const SCENE_URL =
   "https://prod.spline.design/c6dZ26mLL1fTtmDW/scene.splinecode";
 
-/* Spline yalnızca client'ta ve bölüm viewport'a yaklaşınca yüklenir. */
+/* Spline yalnızca masaüstünde ve bölüm viewport'a yaklaşınca yüklenir. */
 const Spline = dynamic(() => import("@splinetool/react-spline"), {
   ssr: false,
 });
@@ -15,7 +15,8 @@ const Spline = dynamic(() => import("@splinetool/react-spline"), {
 /**
  * Güvenilen Markalar bölümünün dekoratif uzay/dünya arka planı.
  *
- * - Sahne lazy-load edilir (IntersectionObserver, ~400px erken);
+ * - Mobil/tablette WebGL sahnesi yüklenmez; CSS arka plan kullanılır.
+ * - Masaüstünde sahne lazy-load edilir (IntersectionObserver, ~400px erken);
  *   yüklenene kadar ve yüklenemezse koyu gradient fallback görünür.
  * - prefers-reduced-motion'da sahne hiç yüklenmez, statik fallback kalır.
  * - Katmanın tamamı pointer-events-none'dır; logo loop etkileşimlerini
@@ -27,25 +28,43 @@ export function SplineGlobeBackground() {
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reducedMotion) return;
-
     const host = hostRef.current;
     if (!host) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setShouldLoad(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "400px 0px" },
-    );
-    observer.observe(host);
-    return () => observer.disconnect();
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let observer: IntersectionObserver | null = null;
+
+    const update = () => {
+      observer?.disconnect();
+      observer = null;
+
+      if (!desktop.matches || reducedMotion.matches) {
+        setShouldLoad(false);
+        return;
+      }
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            setShouldLoad(true);
+            observer?.disconnect();
+            observer = null;
+          }
+        },
+        { rootMargin: "400px 0px" },
+      );
+      observer.observe(host);
+    };
+
+    update();
+    desktop.addEventListener("change", update);
+    reducedMotion.addEventListener("change", update);
+    return () => {
+      desktop.removeEventListener("change", update);
+      reducedMotion.removeEventListener("change", update);
+      observer?.disconnect();
+    };
   }, []);
 
   return (
@@ -64,13 +83,10 @@ export function SplineGlobeBackground() {
         }}
       />
 
-      {/* Spline dünya — masaüstünde sağda, mobilde sağ altta küçük */}
+      {/* Spline dünya yalnızca masaüstünde görünür */}
       {shouldLoad && !failed ? (
         <div
-          className={
-            "absolute inset-y-[-6%] right-[-14%] w-[70%] " +
-            "max-lg:inset-auto max-lg:bottom-[-70px] max-lg:right-[-110px] max-lg:h-[360px] max-lg:w-[360px] max-lg:opacity-45"
-          }
+          className="absolute inset-y-[-6%] right-[-14%] w-[70%]"
         >
           <Spline
             scene={SCENE_URL}
